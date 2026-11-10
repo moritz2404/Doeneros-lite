@@ -1,1 +1,2 @@
-pytest>=8  # nur für die Tests, das Programm selbst braucht keine Pakete
+matplotlib>=3.8  # nur für das Diagramm (Menüpunkt 8), alles andere läuft ohne
+pytest>=8  # nur für die Tests

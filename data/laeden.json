@@ -2,21 +2,32 @@
   {
     "name": "Beispiel Döner Mitte",
     "stadt": "Stuttgart",
+    "preis": 6.5,
     "bewertungen": [
-      {"Fleisch": 8, "Soße": 7, "Gemüse": 6},
-      {"Fleisch": 9, "Soße": 8, "Gemüse": 7}
+      {"noten": {"Fleisch": 8, "Soße": 7, "Gemüse": 6}, "kommentar": "Saftiges Fleisch, Soße etwas mild.", "datum": "2026-11-01"},
+      {"noten": {"Fleisch": 9, "Soße": 8, "Gemüse": 7}, "kommentar": "", "datum": "2026-11-05"}
     ]
   },
   {
     "name": "Beispiel Kebap Haus",
     "stadt": "Stuttgart",
+    "preis": 8.0,
     "bewertungen": [
-      {"Fleisch": 6, "Soße": 9, "Gemüse": 8}
+      {"noten": {"Fleisch": 6, "Soße": 9, "Gemüse": 8}, "kommentar": "Beste Soße der Stadt, Fleisch ok.", "datum": "2026-11-03"}
     ]
   },
   {
     "name": "Beispiel Imbiss Ost",
     "stadt": "Ludwigsburg",
+    "preis": 5.5,
+    "bewertungen": [
+      {"noten": {"Fleisch": 7, "Soße": 6, "Gemüse": 7}, "kommentar": "Günstig und solide.", "datum": "2026-11-07"}
+    ]
+  },
+  {
+    "name": "Beispiel Grillhaus Nord",
+    "stadt": "Ludwigsburg",
+    "preis": null,
     "bewertungen": []
   }
 ]

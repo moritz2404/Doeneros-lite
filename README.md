@@ -1,12 +1,22 @@
 # Döner OS Lite 🥙
 
-Ein Konsolenprogramm in reinem Python, mit dem man Dönerläden nach **Fleisch, Soße und Gemüse** bewerten und ein **Ranking** erstellen kann. Die Bewertungen bleiben in einer Datei gespeichert.
+Ein Konsolenprogramm in Python, mit dem man Dönerläden nach **Fleisch, Soße und Gemüse** bewerten, vergleichen und ranken kann, auch nach **Preis-Leistung**. Alle Daten bleiben in einer Datei gespeichert.
 
 Das ist die Lite-Version der Idee "Döner OS" (eine Bewertungsplattform für Dönerläden) und entstand als Prüfungsleistung im Modul Python.
 
 ## Das Problem
 
-Wo es den besten Döner gibt, ist Geschmackssache und meist nur ein Gesamteindruck ("4,5 Sterne"). Döner OS Lite bewertet getrennt nach Fleisch, Soße und Gemüse und macht daraus Ranglisten, auch pro Stadt und pro Kriterium.
+Wo es den besten Döner gibt, ist Geschmackssache und meist nur ein Gesamteindruck ("4,5 Sterne"). Döner OS Lite bewertet getrennt nach Fleisch, Soße und Gemüse, berücksichtigt den Preis und macht daraus Ranglisten, auch pro Stadt und pro Kriterium.
+
+## Funktionen
+
+- Läden anlegen (mit Stadt und optionalem Preis) und löschen
+- Bewerten mit drei Noten (1 bis 10) und optionalem Kommentar
+- Ranking nach Gesamtnote, einzelnem Kriterium oder Preis-Leistung, optional für eine Stadt
+- Laden suchen und Details samt Kommentaren ansehen
+- Statistik: Durchschnittspreis, bester Laden je Kriterium, bestes Preis-Leistungs-Verhältnis
+- Export des Rankings als CSV (für Excel) und als Balkendiagramm (PNG)
+- Automatisches Speichern nach jeder Aktion, Schutz vor beschädigten Dateien
 
 ## Starten
 
@@ -14,58 +24,79 @@ Wo es den besten Döner gibt, ist Geschmackssache und meist nur ein Gesamteindru
 python main.py
 ```
 
-Es werden keine zusätzlichen Pakete gebraucht (Python 3.10 oder neuer). Beim ersten Start sind drei Beispiel-Läden geladen.
+Das Programm selbst braucht keine zusätzlichen Pakete (Python 3.10 oder neuer). Nur das Diagramm braucht `matplotlib`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Beim ersten Start sind vier Beispiel-Läden geladen.
 
 ## Tests
 
 ```bash
-pip install -r requirements.txt
 pytest -q
 ```
 
 ## Projektaufbau
 
 ```
-main.py              Menü und Eingaben (alles, was mit dem Nutzer zu tun hat)
+main.py              Menü, Eingaben und Ausgaben (alles, was mit dem Nutzer zu tun hat)
 doener/
-  logik.py           Rechenlogik: Bewerten, Durchschnitt, Ranking, Suche
-  speicher.py        Speichern und Laden als JSON
+  modelle.py         Klassen Bewertung und Laden mit Notenberechnung
+  logik.py           Ranking, Suche, Statistik
+  speicher.py        Speichern und Laden (JSON), Export als CSV
+  diagramm.py        Balkendiagramm mit matplotlib
 data/
   laeden.json        Gespeicherte Läden und Bewertungen
 tests/
-  test_logik.py      Automatische Tests
+  test_doener.py     22 automatische Tests
 ```
 
-Die Trennung ist Absicht: `logik.py` kennt keine Eingaben und Ausgaben, deshalb lässt sie sich einfach testen und später in eine App oder Website übernehmen.
+Die Trennung ist Absicht: `logik.py` und `modelle.py` kennen keine Ein- und Ausgaben. Dadurch sind sie einfach zu testen und lassen sich später in eine App oder Website übernehmen. Das ist der Weg von "Lite" zum echten Döner OS.
 
-## Welche Python-Basics wo vorkommen
+## Welche Python-Konzepte wo vorkommen
 
 | Konzept | Wo im Code |
 |---|---|
-| Variablen, Konstanten, Datentypen | `KRITERIEN`, `MIN_NOTE`, `MAX_NOTE` in `logik.py` |
-| Listen | Liste aller Läden, Liste der Bewertungen pro Laden |
-| Dictionaries | Ein Laden und eine Bewertung sind je ein Dictionary |
-| Schleifen (`for`, `while`) | Durchschnitt über Bewertungen, Menüschleife in `main.py` |
+| Variablen, Konstanten, Datentypen | `KRITERIEN`, `MIN_NOTE`, `MAX_NOTE` in `modelle.py` |
+| Listen und Mengen (`set`) | Liste der Läden, Liste der Bewertungen, `staedte()` in `logik.py` |
+| Dictionaries | Noten einer Bewertung, Menü in `main.py`, Statistik in `logik.py` |
+| Schleifen (`for`, `while`) | Durchschnittsberechnung, Menüschleife, Eingabewiederholung |
 | Bedingungen (`if`, `elif`, `else`) | Menüauswahl, Filter nach Stadt, Notenprüfung |
-| Funktionen mit Parametern und Rückgabe | alle Funktionen in `logik.py` |
-| Fehlerbehandlung (`try`, `except`, `raise`) | `frage_zahl` in `main.py`, `bewertung_hinzufuegen` in `logik.py` |
-| Dateien lesen und schreiben (JSON) | `speicher.py` |
-| Sortieren mit `sorted` und `lambda` | `ranking` in `logik.py` |
-| Module und Importe | `from doener import logik, speicher` |
-| f-Strings und Formatierung | Ausgaben in `main.py` |
-| Tests | `tests/test_logik.py` |
+| Funktionen mit Parametern und Rückgabe | `logik.py`, Hilfsfunktionen in `main.py` |
+| Klassen, Objekte, Methoden | `Bewertung` und `Laden` in `modelle.py` |
+| Fehlerbehandlung (`try`, `except`, `raise`) | `frage_zahl`, `frage_preis`, `laeden_laden` |
+| Dateien (JSON, CSV) | `speicher.py` |
+| Sortieren mit `sorted` und `lambda` | `ranking()` in `logik.py` |
+| Funktionen als Werte | `MENUE`-Dictionary in `main.py` |
+| Module, Importe, optionale Pakete | `from doener import logik`, `matplotlib` nur bei Bedarf |
+| f-Strings und Formatierung | Tabellenausgabe in `ranking_anzeigen` |
+| Automatische Tests | `tests/test_doener.py` mit `pytest` |
 
-## Wie die Gesamtnote berechnet wird
+## Wie Gesamtnote und Preis-Leistung berechnet werden
 
-Alle Noten (1 bis 10) aller Bewertungen und aller drei Kriterien werden zusammen gemittelt. Läden ohne Bewertung tauchen im Ranking nicht auf. Im Ranking kann man auch nur nach einem Kriterium sortieren, etwa "Wer hat die beste Soße?".
+- **Bewertung:** Durchschnitt ihrer drei Noten
+- **Gesamtnote eines Ladens:** Durchschnitt aller seiner Bewertungen
+- **Preis-Leistung:** Gesamtnote geteilt durch den Preis, also Notenpunkte pro Euro. Ein 7er-Döner für 5 Euro (1,40) schlägt damit einen 9er-Döner für 10 Euro (0,90).
+
+Läden ohne Bewertung (oder bei Preis-Leistung ohne Preis) tauchen im Ranking nicht auf.
+
+## Erklärhilfe für die Präsentation
+
+1. **Idee:** Welches Problem löst das Programm, und warum Döner? (Abschnitt "Das Problem")
+2. **Daten:** Ein Laden ist ein Objekt mit Bewertungen, jede Bewertung hat drei Noten (`modelle.py`).
+3. **Rechnen:** Durchschnitte per Schleife, Ranking mit `sorted` (`logik.py`).
+4. **Speichern:** Warum JSON, und was passiert bei einer kaputten Datei (`speicher.py`).
+5. **Menü:** Das Dictionary mit Funktionen und die Eingabeprüfung (`main.py`).
+6. **Qualität:** Live `pytest` ausführen.
 
 ## Datenschutz
 
-Das Programm speichert nur Ladennamen, Städte und Noten, keine personenbezogenen Daten, und alles bleibt lokal in `data/laeden.json`. Bei einer echten Online-Version mit Nutzerkonten wäre die DSGVO zu beachten.
+Das Programm speichert nur Ladennamen, Städte, Preise, Noten und Kommentare, keine personenbezogenen Daten, und alles bleibt lokal in `data/laeden.json`. Bei einer echten Online-Version mit Nutzerkonten wäre die DSGVO zu beachten.
 
 ## Mögliche Erweiterungen
 
-- Preis pro Döner erfassen und ein Preis-Leistungs-Ranking berechnen
-- Kommentare zu Bewertungen
-- Eine Klasse `Laden` statt Dictionaries
-- Eine Weboberfläche (zum Beispiel mit Streamlit oder Flask)
+- Weboberfläche (zum Beispiel mit Streamlit oder Flask)
+- Nutzerkonten mit Bewertungen einzelner Personen
+- Daten aus einer Datenbank statt aus einer JSON-Datei
