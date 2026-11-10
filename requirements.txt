@@ -1,0 +1,1 @@
+pytest>=8  # nur für die Tests, das Programm selbst braucht keine Pakete

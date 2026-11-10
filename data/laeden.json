@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Beispiel Döner Mitte",
+    "stadt": "Stuttgart",
+    "bewertungen": [
+      {"Fleisch": 8, "Soße": 7, "Gemüse": 6},
+      {"Fleisch": 9, "Soße": 8, "Gemüse": 7}
+    ]
+  },
+  {
+    "name": "Beispiel Kebap Haus",
+    "stadt": "Stuttgart",
+    "bewertungen": [
+      {"Fleisch": 6, "Soße": 9, "Gemüse": 8}
+    ]
+  },
+  {
+    "name": "Beispiel Imbiss Ost",
+    "stadt": "Ludwigsburg",
+    "bewertungen": []
+  }
+]
