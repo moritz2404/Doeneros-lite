@@ -32,6 +32,23 @@ pip install -r requirements.txt
 
 Beim ersten Start sind vier Beispiel-Läden geladen.
 
+## Web-Version
+
+Dieselbe Logik gibt es auch als Web-App im Browser (`app.py`, gebaut mit Streamlit):
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+Danach öffnet sich die App unter http://localhost:8501.
+
+Online läuft sie auf Render. Die Einstellungen dafür stehen in `render.yaml`, eingerichtet wird sie mit einem Klick:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/moritz2404/Doeneros-lite)
+
+Hinweise zur Online-Version: Im kostenlosen Tarif schläft die App nach 15 Minuten ohne Besucher ein, der erste Aufruf danach dauert etwa eine Minute. Neue Bewertungen bleiben nur bis zum nächsten Neustart erhalten, weil Render keine dauerhafte Festplatte im Gratistarif bietet. Löschen ist online absichtlich nicht möglich, da jeder mit dem Link die App benutzen kann.
+
 ## Tests
 
 ```bash
@@ -41,7 +58,9 @@ pytest -q
 ## Projektaufbau
 
 ```
-main.py              Menü, Eingaben und Ausgaben (alles, was mit dem Nutzer zu tun hat)
+main.py              Konsolenversion: Menü, Eingaben und Ausgaben
+app.py               Web-Version mit Streamlit (nutzt dieselben Module)
+render.yaml          Einstellungen für das Hosting auf Render
 doener/
   modelle.py         Klassen Bewertung und Laden mit Notenberechnung
   logik.py           Ranking, Suche, Statistik
@@ -53,7 +72,7 @@ tests/
   test_doener.py     21 automatische Tests
 ```
 
-Die Trennung ist Absicht: `logik.py` und `modelle.py` kennen keine Ein- und Ausgaben. Dadurch sind sie einfach zu testen und lassen sich später in eine App oder Website übernehmen. Das ist der Weg von "Lite" zum echten Döner OS.
+Die Trennung ist Absicht: `logik.py` und `modelle.py` kennen keine Ein- und Ausgaben. Dadurch sind sie einfach zu testen und lassen sich ohne Änderung in eine Website übernehmen. Genau das zeigt `app.py`: Die Web-Version nutzt dieselben Module wie die Konsolenversion. Das ist der Weg von "Lite" zum echten Döner OS.
 
 ## Welche Python-Konzepte wo vorkommen
 
@@ -93,10 +112,9 @@ Läden ohne Bewertung (oder bei Preis-Leistung ohne Preis) tauchen im Ranking ni
 
 ## Datenschutz
 
-Das Programm speichert nur Ladennamen, Städte, Preise, Noten und Kommentare, keine personenbezogenen Daten, und alles bleibt lokal in `data/laeden.json`. Bei einer echten Online-Version mit Nutzerkonten wäre die DSGVO zu beachten.
+Das Programm speichert nur Ladennamen, Städte, Preise, Noten und Kommentare, keine personenbezogenen Daten, und alles bleibt lokal in `data/laeden.json`. Die Web-Version wird bei Render in Frankfurt gehostet. Weil dort jeder Kommentare eintragen kann, sollte man keine Namen oder andere personenbezogenen Daten in Kommentare schreiben. Bei einer echten Online-Version mit Nutzerkonten wären zusätzlich Datenschutzerklärung, Impressum und ein Auftragsverarbeitungsvertrag mit dem Hoster nötig (DSGVO).
 
 ## Mögliche Erweiterungen
 
-- Weboberfläche (zum Beispiel mit Streamlit oder Flask)
 - Nutzerkonten mit Bewertungen einzelner Personen
 - Daten aus einer Datenbank statt aus einer JSON-Datei
