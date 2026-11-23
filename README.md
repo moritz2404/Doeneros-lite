@@ -50,7 +50,7 @@ doener/
 data/
   laeden.json        Gespeicherte Läden und Bewertungen
 tests/
-  test_doener.py     22 automatische Tests
+  test_doener.py     21 automatische Tests
 ```
 
 Die Trennung ist Absicht: `logik.py` und `modelle.py` kennen keine Ein- und Ausgaben. Dadurch sind sie einfach zu testen und lassen sich später in eine App oder Website übernehmen. Das ist der Weg von "Lite" zum echten Döner OS.

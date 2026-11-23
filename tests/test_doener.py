@@ -12,6 +12,10 @@ from doener.modelle import Bewertung, Laden
 
 
 def laden_mit(name, stadt, preis, *noten_liste):
+    """Hilfsfunktion für die Tests: legt einen Laden an und gibt ihm gleich Bewertungen.
+
+    Jede Bewertung wird als Tupel (Fleisch, Soße, Gemüse) übergeben.
+    """
     laden = Laden(name, stadt, preis)
     for fleisch, sosse, gemuese in noten_liste:
         laden.bewertung_hinzufuegen(
@@ -104,13 +108,6 @@ def test_laden_finden_und_suchen():
 def test_staedte_ohne_doppelte():
     laeden = [Laden("A", "Stuttgart"), Laden("B", "Stuttgart"), Laden("C", "Aalen")]
     assert logik.staedte(laeden) == ["Aalen", "Stuttgart"]
-
-
-def test_laden_loeschen():
-    a, b = Laden("A", "Stuttgart"), Laden("B", "Stuttgart")
-    laeden = [a, b]
-    logik.laden_loeschen(laeden, a)
-    assert laeden == [b]
 
 
 def test_statistik():

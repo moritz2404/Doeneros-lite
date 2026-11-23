@@ -19,9 +19,11 @@ def ranking(laeden, stadt=None, kriterium=None, nach_preis_leistung=False):
     """
     ergebnis = []
     for laden in laeden:
+        # Groß und Kleinschreibung ignorieren, damit "stuttgart" auch "Stuttgart" findet
         if stadt is not None and laden.stadt.lower() != stadt.lower():
             continue  # Laden aus einer anderen Stadt überspringen
 
+        # Je nach Wunsch einen anderen Wert für die Sortierung berechnen
         if nach_preis_leistung:
             wert = laden.preis_leistung()
         elif kriterium is not None:
@@ -29,7 +31,7 @@ def ranking(laeden, stadt=None, kriterium=None, nach_preis_leistung=False):
         else:
             wert = laden.gesamtnote()
 
-        if wert is not None:
+        if wert is not None:  # Läden ohne Bewertung oder ohne Preis weglassen
             ergebnis.append((laden, wert))
 
     # sorted mit key: sortiert nach dem Wert (zweites Element des Paares), absteigend
@@ -38,56 +40,57 @@ def ranking(laeden, stadt=None, kriterium=None, nach_preis_leistung=False):
 
 def laden_finden(laeden, name):
     """Sucht einen Laden nach exaktem Namen (Groß und Kleinschreibung egal). Sonst None."""
+    gesucht = name.strip().lower()  # nur einmal umwandeln statt in jedem Durchlauf
     for laden in laeden:
-        if laden.name.lower() == name.strip().lower():
-            return laden
+        if laden.name.lower() == gesucht:
+            return laden  # Treffer: Funktion sofort beenden
     return None
 
 
 def laeden_suchen(laeden, suchtext):
-    """Alle Läden, in deren Name oder Stadt der Suchtext vorkommt."""
+    """Alle Läden, in deren Name oder Stadt der Suchtext vorkommt.
+
+    Ein leerer Suchtext kommt in jedem Text vor, liefert also alle Läden.
+    """
     suchtext = suchtext.strip().lower()
-    treffer = []
-    for laden in laeden:
-        if suchtext in laden.name.lower() or suchtext in laden.stadt.lower():
-            treffer.append(laden)
-    return treffer
+    return [
+        laden for laden in laeden
+        if suchtext in laden.name.lower() or suchtext in laden.stadt.lower()
+    ]
 
 
 def staedte(laeden):
     """Alphabetische Liste aller vorkommenden Städte, jede nur einmal."""
-    alle = set()  # Eine Menge (set) enthält jeden Wert höchstens einmal
-    for laden in laeden:
-        alle.add(laden.stadt)
-    return sorted(alle)
+    # Die geschweiften Klammern erzeugen eine Menge (set): jeder Wert höchstens einmal
+    return sorted({laden.stadt for laden in laeden})
 
 
-def laden_loeschen(laeden, laden):
-    """Entfernt einen Laden aus der Liste."""
-    laeden.remove(laden)
+def _erster_oder_none(liste):
+    """Gibt den ersten Eintrag einer Liste zurück oder None, wenn sie leer ist."""
+    return liste[0] if liste else None
 
 
 def statistik(laeden):
-    """Fasst die wichtigsten Kennzahlen in einem Dictionary zusammen."""
-    anzahl_bewertungen = 0
-    preise = []
-    for laden in laeden:
-        anzahl_bewertungen += len(laden.bewertungen)
-        if laden.preis is not None:
-            preise.append(laden.preis)
+    """Fasst die wichtigsten Kennzahlen in einem Dictionary zusammen.
+
+    Enthalten sind Anzahl Läden und Bewertungen, Durchschnittspreis,
+    bester Laden je Kriterium und bestes Preis-Leistungs-Verhältnis.
+    """
+    # sum() zählt die Bewertungen aller Läden zusammen
+    anzahl_bewertungen = sum(len(laden.bewertungen) for laden in laeden)
+    # Nur Läden mit bekanntem Preis zählen für den Durchschnittspreis
+    preise = [laden.preis for laden in laeden if laden.preis is not None]
 
     # Bester Laden je Kriterium: erster Eintrag der jeweiligen Rangliste
-    beste_pro_kriterium = {}
-    for kriterium in KRITERIEN:
-        liste = ranking(laeden, kriterium=kriterium)
-        beste_pro_kriterium[kriterium] = liste[0] if len(liste) > 0 else None
-
-    preis_leistung_liste = ranking(laeden, nach_preis_leistung=True)
+    beste_pro_kriterium = {
+        kriterium: _erster_oder_none(ranking(laeden, kriterium=kriterium))
+        for kriterium in KRITERIEN
+    }
 
     return {
         "anzahl_laeden": len(laeden),
         "anzahl_bewertungen": anzahl_bewertungen,
         "durchschnittspreis": durchschnitt(preise),
         "beste_pro_kriterium": beste_pro_kriterium,
-        "beste_preis_leistung": preis_leistung_liste[0] if len(preis_leistung_liste) > 0 else None,
+        "beste_preis_leistung": _erster_oder_none(ranking(laeden, nach_preis_leistung=True)),
     }

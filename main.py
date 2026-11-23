@@ -11,6 +11,7 @@ from pathlib import Path
 from doener import logik, speicher
 from doener.modelle import KRITERIEN, MAX_NOTE, MIN_NOTE, Bewertung, Laden
 
+# Hierhin werden CSV und Diagramm gespeichert (Ordner "ausgabe" neben main.py)
 AUSGABE_ORDNER = Path(__file__).resolve().parent / "ausgabe"
 
 
@@ -18,13 +19,12 @@ AUSGABE_ORDNER = Path(__file__).resolve().parent / "ausgabe"
 
 def frage_zahl(text, minimum, maximum):
     """Fragt so lange nach, bis eine ganze Zahl im erlaubten Bereich eingegeben wurde."""
-    while True:
-        eingabe = input(text)
+    while True:  # Endlosschleife, die erst mit return verlassen wird
         try:
-            zahl = int(eingabe)
+            zahl = int(input(text))  # int() löst einen ValueError aus, wenn es keine Zahl ist
         except ValueError:
             print("Bitte eine ganze Zahl eingeben.")
-            continue
+            continue  # zurück an den Anfang der Schleife
         if minimum <= zahl <= maximum:
             return zahl
         print(f"Die Zahl muss zwischen {minimum} und {maximum} liegen.")
@@ -49,13 +49,13 @@ def frage_preis(text):
 
 def laden_waehlen(laeden):
     """Zeigt alle Läden nummeriert an und gibt den gewählten Laden zurück (oder None)."""
-    if len(laeden) == 0:
+    if not laeden:
         print("Noch keine Läden vorhanden. Bitte zuerst einen Laden hinzufügen.")
         return None
     for nummer, laden in enumerate(laeden, start=1):
         print(f"  {nummer}. {laden.name} ({laden.stadt})")
     auswahl = frage_zahl("Nummer des Ladens: ", 1, len(laeden))
-    return laeden[auswahl - 1]
+    return laeden[auswahl - 1]  # Listen beginnen bei 0, die Anzeige bei 1
 
 
 def text_note(note):
@@ -67,7 +67,7 @@ def text_note(note):
 
 def laeden_anzeigen(laeden):
     """Alle Läden mit Preis, Anzahl der Bewertungen und Gesamtnote auflisten."""
-    if len(laeden) == 0:
+    if not laeden:
         print("Noch keine Läden vorhanden.")
         return
     for laden in laeden:
@@ -79,19 +79,21 @@ def laeden_anzeigen(laeden):
 
 
 def laden_hinzufuegen(laeden):
-    """Neuen Laden anlegen."""
+    """Neuen Laden anlegen. Doppelte Namen werden abgelehnt."""
     name = input("Name des Ladens: ")
-    stadt = input("Stadt: ")
-    preis = frage_preis("Preis eines Döners in Euro (Enter, wenn unbekannt): ")
+    # Direkt nach dem Namen prüfen, damit niemand umsonst Stadt und Preis eintippt
     if logik.laden_finden(laeden, name) is not None:
         print("Diesen Laden gibt es schon.")
         return
+    stadt = input("Stadt: ")
+    preis = frage_preis("Preis eines Döners in Euro (Enter, wenn unbekannt): ")
     try:
-        laeden.append(Laden(name, stadt, preis))
+        laden = Laden(name, stadt, preis)  # Die Klasse prüft selbst, ob alles gültig ist
     except ValueError as fehler:
         print(fehler)
         return
-    print(f"{name.strip()} wurde hinzugefügt.")
+    laeden.append(laden)
+    print(f"{laden.name} wurde hinzugefügt.")
 
 
 def laden_bewerten(laeden):
@@ -99,24 +101,29 @@ def laden_bewerten(laeden):
     laden = laden_waehlen(laeden)
     if laden is None:
         return
-    noten = {}
-    for kriterium in KRITERIEN:
-        noten[kriterium] = frage_zahl(
-            f"{kriterium} ({MIN_NOTE} bis {MAX_NOTE}): ", MIN_NOTE, MAX_NOTE
-        )
+    # Dictionary Comprehension: fragt für jedes Kriterium eine Note ab
+    noten = {
+        kriterium: frage_zahl(f"{kriterium} ({MIN_NOTE} bis {MAX_NOTE}): ", MIN_NOTE, MAX_NOTE)
+        for kriterium in KRITERIEN
+    }
     kommentar = input("Kommentar (optional): ")
     laden.bewertung_hinzufuegen(Bewertung(noten, kommentar))
     print("Danke für deine Bewertung!")
 
 
 def ranking_waehlen(laeden):
-    """Fragt Stadt und Sortierung ab und gibt (liste, titel) zurück."""
-    vorhandene_staedte = logik.staedte(laeden)
-    if len(vorhandene_staedte) > 0:
-        print("Städte: " + ", ".join(vorhandene_staedte))
-    stadt = input("Nur eine Stadt anzeigen? (Enter für alle): ").strip()
-    stadt_filter = stadt if stadt != "" else None
+    """Fragt Stadt und Sortierung ab und gibt (liste, titel) zurück.
 
+    Wird von Ranking anzeigen, CSV-Export und Diagramm gemeinsam genutzt,
+    damit die Abfrage nur an einer Stelle steht.
+    """
+    vorhandene_staedte = logik.staedte(laeden)
+    if vorhandene_staedte:
+        print("Städte: " + ", ".join(vorhandene_staedte))
+    # Leere Eingabe ergibt "" und "" or None ergibt None, also: keine Stadt filtern
+    stadt_filter = input("Nur eine Stadt anzeigen? (Enter für alle): ").strip() or None
+
+    # Menü: 0 = Gesamtnote, 1 bis 3 = Kriterien, 4 = Preis-Leistung
     print("Sortieren nach:")
     print("  0: Gesamtnote")
     for nummer, kriterium in enumerate(KRITERIEN, start=1):
@@ -144,12 +151,12 @@ def ranking_waehlen(laeden):
 def ranking_anzeigen(laeden):
     """Rangliste als Tabelle ausgeben."""
     liste, titel = ranking_waehlen(laeden)
-    if len(liste) == 0:
+    if not liste:
         print("Keine passenden Läden mit Bewertung gefunden.")
         return
     print()
     print(titel)
-    print("-" * len(titel))
+    print("-" * len(titel))  # Linie genau so lang wie der Titel
     for platz, (laden, wert) in enumerate(liste, start=1):
         # :<26 bedeutet linksbündig auf 26 Zeichen, :>6.2f rechtsbündig mit 2 Nachkommastellen
         print(f"{platz:>2}. {laden.name:<26} {laden.stadt:<14} {wert:>6.2f}")
@@ -159,10 +166,10 @@ def laden_details(laeden):
     """Läden suchen und alle Einzelheiten samt Kommentaren anzeigen."""
     suchtext = input("Suchbegriff (Name oder Stadt, Enter für alle): ")
     treffer = logik.laeden_suchen(laeden, suchtext)
-    if len(treffer) == 0:
+    if not treffer:
         print("Keine Treffer.")
         return
-    laden = laden_waehlen(treffer)
+    laden = laden_waehlen(treffer)  # Auswahl nur aus den Treffern
     print()
     print(f"{laden.name} ({laden.stadt})")
     print(f"Gesamtnote: {text_note(laden.gesamtnote())}")
@@ -171,15 +178,16 @@ def laden_details(laeden):
     preis_leistung = laden.preis_leistung()
     if preis_leistung is not None:
         print(f"Preis-Leistung: {preis_leistung:.2f} Notenpunkte pro Euro")
-    kommentare = [b for b in laden.bewertungen if b.kommentar != ""]
-    if len(kommentare) > 0:
+    # Nur Bewertungen zeigen, bei denen wirklich ein Kommentar geschrieben wurde
+    kommentare = [bewertung for bewertung in laden.bewertungen if bewertung.kommentar]
+    if kommentare:
         print("Kommentare:")
         for bewertung in kommentare:
             print(f"  {bewertung.datum}: {bewertung.kommentar}")
 
 
 def statistik_anzeigen(laeden):
-    """Wichtige Kennzahlen auf einen Blick."""
+    """Wichtige Kennzahlen auf einen Blick (berechnet in logik.statistik)."""
     werte = logik.statistik(laeden)
     print(f"Läden: {werte['anzahl_laeden']}, Bewertungen: {werte['anzahl_bewertungen']}")
     if werte["durchschnittspreis"] is not None:
@@ -189,7 +197,7 @@ def statistik_anzeigen(laeden):
         if eintrag is None:
             print(f"  {kriterium}: noch keine Bewertungen")
         else:
-            laden, note = eintrag
+            laden, note = eintrag  # Das Paar (laden, note) in zwei Variablen aufteilen
             print(f"  {kriterium}: {laden.name} ({note:.1f})")
     if werte["beste_preis_leistung"] is not None:
         laden, wert = werte["beste_preis_leistung"]
@@ -198,8 +206,8 @@ def statistik_anzeigen(laeden):
 
 def ranking_exportieren(laeden):
     """Ranking als CSV-Datei speichern (öffnet sich in Excel)."""
-    liste, titel = ranking_waehlen(laeden)
-    if len(liste) == 0:
+    liste, _titel = ranking_waehlen(laeden)  # Titel wird für die CSV nicht gebraucht
+    if not liste:
         print("Nichts zu exportieren.")
         return
     pfad = AUSGABE_ORDNER / "ranking.csv"
@@ -210,14 +218,14 @@ def ranking_exportieren(laeden):
 def diagramm_erstellen(laeden):
     """Ranking als Balkendiagramm (PNG) speichern."""
     liste, titel = ranking_waehlen(laeden)
-    if len(liste) == 0:
+    if not liste:
         print("Nichts darzustellen.")
         return
+    pfad = AUSGABE_ORDNER / "ranking.png"
     try:
         from doener import diagramm
-        pfad = AUSGABE_ORDNER / "ranking.png"
         diagramm.ranking_diagramm(liste, pfad, titel)
-    except ImportError:
+    except ImportError:  # matplotlib ist nicht installiert
         print("Für das Diagramm wird matplotlib gebraucht: pip install matplotlib")
         return
     print(f"Diagramm gespeichert unter {pfad}")
@@ -230,7 +238,7 @@ def laden_loeschen(laeden):
         return
     sicher = input(f"{laden.name} wirklich löschen? (j/n): ").strip().lower()
     if sicher == "j":
-        logik.laden_loeschen(laeden, laden)
+        laeden.remove(laden)  # Entfernt genau dieses Objekt aus der Liste
         print("Gelöscht.")
     else:
         print("Abgebrochen.")
@@ -257,7 +265,7 @@ def menue():
     """Hauptschleife: zeigt das Menü, führt die gewählte Funktion aus und speichert danach."""
     try:
         laeden = speicher.laeden_laden()
-    except ValueError as fehler:
+    except ValueError as fehler:  # Beschädigte Datei: lieber abbrechen als überschreiben
         print(fehler)
         return
 
@@ -275,9 +283,11 @@ def menue():
 
         _beschriftung, funktion = MENUE[auswahl]
         print()
-        funktion(laeden)
+        funktion(laeden)  # Die gespeicherte Funktion aufrufen
         speicher.laeden_speichern(laeden)  # Nach jeder Aktion speichern, es geht nichts verloren
 
 
+# Dieser Block läuft nur, wenn man die Datei direkt startet (python main.py),
+# nicht wenn sie von einer anderen Datei importiert wird (z. B. von den Tests).
 if __name__ == "__main__":
     menue()
