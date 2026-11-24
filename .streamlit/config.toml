@@ -1,0 +1,13 @@
+# Farbschema der Web-App (Streamlit liest diese Datei automatisch)
+[theme]
+base = "light"
+primaryColor = "#C0392B"
+backgroundColor = "#FFF8F0"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#2B2320"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

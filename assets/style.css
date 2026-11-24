@@ -1,0 +1,153 @@
+/* Eigenes Design für Döner OS Lite. Wird von app.py eingelesen. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* ---------- Grundlage ---------- */
+.stApp {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at 10% 0%, #FFE9D6 0%, #FFF8F0 38%, #FFF8F0 100%);
+}
+.stApp p, .stApp label, .stApp button, .stApp li, .stApp input, .stApp h1, .stApp h2, .stApp h3 {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+.block-container { max-width: 980px; padding-top: 1.4rem; padding-bottom: 3rem; }
+#MainMenu, footer, header[data-testid="stHeader"],
+[data-testid="stSidebar"], [data-testid="collapsedControl"] { display: none; }
+
+/* ---------- Kopfbereich ---------- */
+.hero {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #B8291C 0%, #D9541E 55%, #F0922B 100%);
+    border-radius: 28px; padding: 34px 38px 30px; color: #fff;
+    box-shadow: 0 18px 40px rgba(184, 41, 28, .28); margin-bottom: 18px;
+}
+.hero::after {
+    content: "🥙"; position: absolute; right: 26px; top: -14px;
+    font-size: 150px; opacity: .16; transform: rotate(-12deg);
+}
+.hero .logo { font-size: .8rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: .85; }
+.hero h1 { color: #fff; font-size: 2.5rem; font-weight: 800; margin: 4px 0 6px; padding: 0; line-height: 1.1; }
+.hero p { color: #FFF1E3; font-size: 1.02rem; margin: 0 0 18px; max-width: 560px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
+.chip {
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(6px); padding: 7px 16px; border-radius: 99px;
+    font-size: .9rem; font-weight: 600; color: #fff;
+}
+
+/* ---------- Überschriften im Inhalt ---------- */
+.titel { font-size: 1.35rem; font-weight: 700; color: #2B2320; margin: 22px 0 4px; }
+.untertitel { color: #7A6A60; font-size: .92rem; margin: 0 0 14px; }
+
+/* ---------- Podium (Platz 1 bis 3) ---------- */
+.podium {
+    background: #fff; border-radius: 22px; padding: 20px 20px 18px; text-align: center;
+    box-shadow: 0 10px 28px rgba(80, 40, 10, .10); border-top: 6px solid #ccc; height: 100%;
+}
+.podium.p1 { border-top-color: #F2B632; background: linear-gradient(180deg, #FFF7DC 0%, #fff 55%); }
+.podium.p2 { border-top-color: #A9B4BF; }
+.podium.p3 { border-top-color: #CD7F32; }
+.podium .medaille { font-size: 2.6rem; line-height: 1; }
+.podium .name { font-size: 1.08rem; font-weight: 700; margin: 10px 0 2px; color: #2B2320; }
+.podium .meta { font-size: .84rem; color: #7A6A60; margin-bottom: 12px; }
+.podium .zahl { font-size: 2.3rem; font-weight: 800; color: #B8291C; line-height: 1; }
+.podium .einheit { font-size: .75rem; color: #9C8C82; margin-bottom: 10px; }
+
+/* ---------- Listenzeilen ---------- */
+.zeile {
+    display: flex; align-items: center; gap: 16px; background: #fff;
+    border-radius: 18px; padding: 14px 20px; margin-bottom: 10px;
+    box-shadow: 0 4px 16px rgba(80, 40, 10, .07); transition: transform .15s ease, box-shadow .15s ease;
+}
+.zeile:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(80, 40, 10, .13); }
+.zeile .platz {
+    flex: 0 0 38px; height: 38px; border-radius: 12px; background: #FBE9DF; color: #B8291C;
+    font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.zeile .info { flex: 1 1 auto; min-width: 0; }
+.zeile .name { font-weight: 600; color: #2B2320; font-size: 1.02rem; }
+.zeile .meta { font-size: .82rem; color: #7A6A60; }
+.zeile .wert { flex: 0 0 190px; }
+.zeile .zahl { font-weight: 700; font-size: 1.1rem; color: #2B2320; text-align: right; margin-bottom: 4px; }
+
+/* ---------- Balken ---------- */
+.spur { height: 9px; background: #F3E7DB; border-radius: 99px; overflow: hidden; }
+.fuell { height: 100%; border-radius: 99px; }
+
+/* ---------- Kennzahlen und Karten ---------- */
+.kpi {
+    background: #fff; border-radius: 20px; padding: 20px 22px; text-align: center;
+    box-shadow: 0 8px 24px rgba(80, 40, 10, .08); border-bottom: 5px solid #E8743B;
+}
+.kpi .symbol { font-size: 1.7rem; }
+.kpi .zahl { font-size: 2.2rem; font-weight: 800; color: #B8291C; line-height: 1.1; }
+.kpi .text { font-size: .85rem; color: #7A6A60; font-weight: 500; }
+.sieger {
+    background: #fff; border-radius: 20px; padding: 18px 20px; min-height: 128px;
+    box-shadow: 0 8px 24px rgba(80, 40, 10, .08);
+}
+.sieger .kriterium { font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; color: #9C8C82; font-weight: 600; }
+.sieger .name { font-weight: 700; font-size: 1.05rem; margin: 6px 0 2px; color: #2B2320; }
+.sieger .note { color: #B8291C; font-weight: 700; }
+
+/* ---------- Detailseite ---------- */
+.detail {
+    background: #fff; border-radius: 24px; padding: 26px 28px; margin: 12px 0 16px;
+    box-shadow: 0 10px 30px rgba(80, 40, 10, .10);
+}
+.detail .kopf { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.detail h2 { margin: 0; padding: 0; font-size: 1.6rem; font-weight: 800; color: #2B2320; }
+.detail .meta { color: #7A6A60; font-size: .92rem; margin-top: 4px; }
+.ring {
+    width: 96px; height: 96px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: conic-gradient(var(--farbe) calc(var(--anteil) * 1%), #F3E7DB 0);
+}
+.ring span {
+    width: 74px; height: 74px; border-radius: 50%; background: #fff; display: flex;
+    align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: #2B2320;
+}
+.kriterium-zeile { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.kriterium-zeile .bez { flex: 0 0 120px; font-weight: 600; color: #2B2320; }
+.kriterium-zeile .spur { flex: 1 1 auto; height: 11px; }
+.kriterium-zeile .zahl { flex: 0 0 48px; text-align: right; font-weight: 700; }
+.blase {
+    background: #fff; border-radius: 4px 18px 18px 18px; padding: 12px 18px; margin-bottom: 10px;
+    box-shadow: 0 4px 14px rgba(80, 40, 10, .07); border-left: 4px solid #E8743B;
+}
+.blase .datum { font-size: .75rem; color: #9C8C82; }
+.blase .text { color: #2B2320; }
+
+/* ---------- Eingabeelemente ---------- */
+[data-testid="stForm"] {
+    background: #fff; border: none; border-radius: 22px; padding: 26px 28px;
+    box-shadow: 0 10px 30px rgba(80, 40, 10, .10);
+}
+[data-baseweb="input"], [data-baseweb="select"] > div, [data-baseweb="base-input"] { border-radius: 12px; }
+.stButton > button, .stDownloadButton > button, [data-testid="stFormSubmitButton"] > button {
+    border-radius: 14px; font-weight: 600; padding: .55rem 1.4rem; border: none;
+    background: linear-gradient(135deg, #C0392B, #E8743B); color: #fff;
+    box-shadow: 0 6px 16px rgba(192, 57, 43, .30); transition: transform .12s ease, box-shadow .12s ease;
+}
+.stButton > button:hover, .stDownloadButton > button:hover, [data-testid="stFormSubmitButton"] > button:hover {
+    transform: translateY(-2px); box-shadow: 0 10px 22px rgba(192, 57, 43, .38); color: #fff;
+}
+[data-testid="stExpander"] { border: none; border-radius: 18px; background: #fff; box-shadow: 0 4px 16px rgba(80, 40, 10, .07); }
+
+.fuss { text-align: center; color: #A89A90; font-size: .8rem; margin-top: 34px; }
+
+/* ---------- Menü (Reiter oben): größere, runde Schaltflächen ---------- */
+button[data-variant="segmented_control"] {
+    font-weight: 600; font-size: .95rem; padding: .55rem 1rem; border-radius: 12px;
+}
+
+/* ---------- Handy ---------- */
+@media (max-width: 640px) {
+    .hero { padding: 26px 22px 22px; border-radius: 22px; }
+    .hero h1 { font-size: 1.8rem; }
+    .zeile { flex-wrap: wrap; }
+    .zeile .wert { flex: 1 1 100%; }
+    .kriterium-zeile .bez { flex-basis: 90px; }
+    /* Menü auf dem Handy: zwei Schaltflächen pro Zeile, alle gleich breit */
+    [data-testid="stButtonGroup"] > div { width: 100%; }
+    button[data-variant="segmented_control"] { flex: 1 1 44%; justify-content: center; }
+    .sieger { min-height: 0; }
+}

@@ -60,6 +60,8 @@ pytest -q
 ```
 main.py              Konsolenversion: Menü, Eingaben und Ausgaben
 app.py               Web-Version mit Streamlit (nutzt dieselben Module)
+assets/style.css     Design der Web-Version (Farben, Karten, Balken)
+.streamlit/          Farbschema der Web-Version (config.toml)
 render.yaml          Einstellungen für das Hosting auf Render
 doener/
   modelle.py         Klassen Bewertung und Laden mit Notenberechnung
