@@ -4,8 +4,24 @@
     "stadt": "Stuttgart",
     "preis": 6.5,
     "bewertungen": [
-      {"noten": {"Fleisch": 8, "Soße": 7, "Gemüse": 6}, "kommentar": "Saftiges Fleisch, Soße etwas mild.", "datum": "2026-11-01"},
-      {"noten": {"Fleisch": 9, "Soße": 8, "Gemüse": 7}, "kommentar": "", "datum": "2026-11-05"}
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 7,
+          "Gemüse": 6
+        },
+        "kommentar": "Saftiges Fleisch, Soße etwas mild.",
+        "datum": "2026-11-01"
+      },
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 8,
+          "Gemüse": 7
+        },
+        "kommentar": "",
+        "datum": "2026-11-05"
+      }
     ]
   },
   {
@@ -13,7 +29,15 @@
     "stadt": "Stuttgart",
     "preis": 8.0,
     "bewertungen": [
-      {"noten": {"Fleisch": 6, "Soße": 9, "Gemüse": 8}, "kommentar": "Beste Soße der Stadt, Fleisch ok.", "datum": "2026-11-03"}
+      {
+        "noten": {
+          "Fleisch": 6,
+          "Soße": 9,
+          "Gemüse": 8
+        },
+        "kommentar": "Beste Soße der Stadt, Fleisch ok.",
+        "datum": "2026-11-03"
+      }
     ]
   },
   {
@@ -21,7 +45,15 @@
     "stadt": "Ludwigsburg",
     "preis": 5.5,
     "bewertungen": [
-      {"noten": {"Fleisch": 7, "Soße": 6, "Gemüse": 7}, "kommentar": "Günstig und solide.", "datum": "2026-11-07"}
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 6,
+          "Gemüse": 7
+        },
+        "kommentar": "Günstig und solide.",
+        "datum": "2026-11-07"
+      }
     ]
   },
   {
@@ -29,5 +61,273 @@
     "stadt": "Ludwigsburg",
     "preis": null,
     "bewertungen": []
+  },
+  {
+    "name": "Istanbul Grill Königstraße",
+    "stadt": "Stuttgart",
+    "preis": 7.5,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 8,
+          "Gemüse": 7
+        },
+        "kommentar": "Fleisch vom Spieß, richtig knusprig außen.",
+        "datum": "2026-11-03"
+      },
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 9,
+          "Gemüse": 7
+        },
+        "kommentar": "Die scharfe Soße ist der Hammer.",
+        "datum": "2026-11-08"
+      },
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 8,
+          "Gemüse": 8
+        },
+        "kommentar": "",
+        "datum": "2026-11-12"
+      }
+    ]
+  },
+  {
+    "name": "Kebap Palast Hauptbahnhof",
+    "stadt": "Stuttgart",
+    "preis": 6.0,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 6,
+          "Soße": 5,
+          "Gemüse": 6
+        },
+        "kommentar": "Schnell und günstig, aber nichts Besonderes.",
+        "datum": "2026-11-02"
+      },
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 6,
+          "Gemüse": 5
+        },
+        "kommentar": "",
+        "datum": "2026-11-09"
+      }
+    ]
+  },
+  {
+    "name": "Anatolia Döner Vaihingen",
+    "stadt": "Stuttgart",
+    "preis": 6.8,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 7,
+          "Gemüse": 9
+        },
+        "kommentar": "Sehr frisches Gemüse, großzügig belegt.",
+        "datum": "2026-11-04"
+      },
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 8,
+          "Gemüse": 8
+        },
+        "kommentar": "Brot kommt warm aus dem Ofen.",
+        "datum": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "Bosporus Imbiss Cannstatt",
+    "stadt": "Stuttgart",
+    "preis": 5.5,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 6,
+          "Gemüse": 6
+        },
+        "kommentar": "Für den Preis absolut in Ordnung.",
+        "datum": "2026-11-06"
+      },
+      {
+        "noten": {
+          "Fleisch": 6,
+          "Soße": 7,
+          "Gemüse": 5
+        },
+        "kommentar": "",
+        "datum": "2026-11-11"
+      },
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 7,
+          "Gemüse": 6
+        },
+        "kommentar": "Immer lange Schlange mittags.",
+        "datum": "2026-11-14"
+      }
+    ]
+  },
+  {
+    "name": "Dönerei am Marktplatz",
+    "stadt": "Ludwigsburg",
+    "preis": 6.5,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 8,
+          "Gemüse": 7
+        },
+        "kommentar": "Mein Favorit nach der Vorlesung.",
+        "datum": "2026-11-05"
+      },
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 7,
+          "Gemüse": 8
+        },
+        "kommentar": "",
+        "datum": "2026-11-13"
+      }
+    ]
+  },
+  {
+    "name": "Sultan Kebap Haus",
+    "stadt": "Ludwigsburg",
+    "preis": 8.5,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 9,
+          "Gemüse": 9
+        },
+        "kommentar": "Teuer, aber jeden Euro wert.",
+        "datum": "2026-11-07"
+      },
+      {
+        "noten": {
+          "Fleisch": 10,
+          "Soße": 9,
+          "Gemüse": 8
+        },
+        "kommentar": "Bestes Fleisch in der Gegend.",
+        "datum": "2026-11-15"
+      }
+    ]
+  },
+  {
+    "name": "Mevlana Döner Esslingen",
+    "stadt": "Esslingen",
+    "preis": 6.2,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 8,
+          "Gemüse": 7
+        },
+        "kommentar": "Die Knoblauchsoße ist richtig gut.",
+        "datum": "2026-11-04"
+      },
+      {
+        "noten": {
+          "Fleisch": 6,
+          "Soße": 7,
+          "Gemüse": 7
+        },
+        "kommentar": "",
+        "datum": "2026-11-12"
+      }
+    ]
+  },
+  {
+    "name": "Efes Grillstube",
+    "stadt": "Esslingen",
+    "preis": 7.0,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 5,
+          "Soße": 4,
+          "Gemüse": 6
+        },
+        "kommentar": "Fleisch leider etwas trocken.",
+        "datum": "2026-11-06"
+      },
+      {
+        "noten": {
+          "Fleisch": 6,
+          "Soße": 5,
+          "Gemüse": 5
+        },
+        "kommentar": "",
+        "datum": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "Gül Döner Tübingen",
+    "stadt": "Tübingen",
+    "preis": 7.2,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 8,
+          "Gemüse": 8
+        },
+        "kommentar": "Auch vegetarische Option, sehr lecker.",
+        "datum": "2026-11-08"
+      },
+      {
+        "noten": {
+          "Fleisch": 9,
+          "Soße": 8,
+          "Gemüse": 9
+        },
+        "kommentar": "Studenten Rabatt am Dienstag.",
+        "datum": "2026-11-16"
+      }
+    ]
+  },
+  {
+    "name": "Hasir Kebap Heilbronn",
+    "stadt": "Heilbronn",
+    "preis": 5.9,
+    "bewertungen": [
+      {
+        "noten": {
+          "Fleisch": 7,
+          "Soße": 7,
+          "Gemüse": 6
+        },
+        "kommentar": "",
+        "datum": "2026-11-09"
+      },
+      {
+        "noten": {
+          "Fleisch": 8,
+          "Soße": 6,
+          "Gemüse": 7
+        },
+        "kommentar": "Große Portion für wenig Geld.",
+        "datum": "2026-11-17"
+      }
+    ]
   }
 ]
